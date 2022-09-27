@@ -2,18 +2,19 @@ const mathHelper = require("./mathHelper");
 const process = require("process");
 const fs = require("fs");
 
-process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array so we can have just the user inputs
+process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array so we can have just the user inputs.
 
-const userInput = process.argv;
+const userInput = process.argv; //
+let folder = "dataPoints"; //Name of the folder we will create
 
-const processInput = (input) => {
-	let path = "/dataPoints";
+const processInput = (input, path) => {
+	//Creates a folder
 	fs.mkdir(path, (err) => {
 		if (err) {
-			console.log(err.path);
+			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
+			processInput(input, path); //Recursively call the processInput function and make a folder with new path name.
 		}
-		// file written successfully
 	});
 };
 
-processInput(userInput);
+processInput(userInput, folder);
