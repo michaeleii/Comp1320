@@ -22,7 +22,7 @@ const processInput = (input, path) => {
 	fs.mkdir(path, (err) => {
 		if (err) {
 			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
-			processInput(input, path); //Recursively call the processInput function and make a folder with new path name.
+			processInput(input, path); //Recursively call the processInput function and make a folder with the new path name.
 		}
 		//Point 1:
 		const x1 = userInput[0];
@@ -32,13 +32,15 @@ const processInput = (input, path) => {
 		const x2 = userInput[2];
 		const y2 = userInput[3];
 
-		const result = distance(x1, y1, x2, y2); //Calculates the distance of points. (Imported from mathHelper.js)
+		const file = path + "/points.txt"; //The path of the file were going to create.
+		const data = `The distance between your two points: (${x1},${y1}), (${x2},${y2}) is `; //The data were going to write to the file.
 
-		fs.writeFile(path, result, (err) => {
+		fs.writeFile(file, data, (err) => {
 			if (err) {
 				console.log(err);
 			}
 			console.log(`Your contents have been saved to: ${path}`);
+			const pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
 		});
 	});
 };
