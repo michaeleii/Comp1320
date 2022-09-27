@@ -24,6 +24,7 @@ const processInput = (input, path) => {
 			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
 			processInput(input, path); //Recursively call the processInput function and make a folder with the new path name.
 		}
+
 		//Point 1:
 		const x1 = userInput[0];
 		const y1 = userInput[1];
@@ -39,7 +40,7 @@ const processInput = (input, path) => {
 			if (err) {
 				console.log(err);
 			}
-			console.log(`Your contents have been saved to: ${path}`);
+			console.log(`Your contents have been saved to: /${file}`);
 
 			let pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
 			pointDistance = pointDistance.toString(); //Converts the distance to a string so we can append to the file.
@@ -63,9 +64,10 @@ const checkInput = (input) => {
 	}
 	return true;
 };
-console.log(checkInput(userInput)); //Logs the error into console.
 
 //If user input passes the error check, then run the processInput function.
-if (checkInput) {
+if (checkInput(userInput)) {
 	processInput(userInput, folder);
+} else {
+	console.log(checkInput(userInput)); //Else it will log an error message.
 }
