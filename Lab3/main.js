@@ -23,34 +23,35 @@ const processInput = (input, path) => {
 		if (err) {
 			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
 			processInput(input, path); //Recursively call the processInput function and make a folder with the new path name.
-		}
+		} else {
+			//Point 1:
+			const x1 = userInput[0];
+			const y1 = userInput[1];
 
-		//Point 1:
-		const x1 = userInput[0];
-		const y1 = userInput[1];
+			//Point 2:
+			const x2 = userInput[2];
+			const y2 = userInput[3];
 
-		//Point 2:
-		const x2 = userInput[2];
-		const y2 = userInput[3];
+			const file = path + "/points.txt"; //The path of the file were going to create.
+			const data = `The distance between your two points: (${x1},${y1}), (${x2},${y2}) is `; //The data were going to write to the file.
 
-		const file = path + "/points.txt"; //The path of the file were going to create.
-		const data = `The distance between your two points: (${x1},${y1}), (${x2},${y2}) is `; //The data were going to write to the file.
-
-		fs.writeFile(file, data, (err) => {
-			if (err) {
-				console.log(err);
-			}
-			console.log(`Your contents have been saved to: /${file}`);
-
-			let pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
-			pointDistance = pointDistance.toString(); //Converts the distance to a string so we can append to the file.
-
-			fs.appendFile(file, pointDistance, (err) => {
+			fs.writeFile(file, data, (err) => {
 				if (err) {
 					console.log(err);
+				} else {
+					console.log(`Your contents have been saved to: /${file}`);
+
+					let pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
+					pointDistance = pointDistance.toString(); //Converts the distance to a string so we can append to the file.
+
+					fs.appendFile(file, pointDistance, (err) => {
+						if (err) {
+							console.log(err);
+						}
+					});
 				}
 			});
-		});
+		}
 	});
 };
 
