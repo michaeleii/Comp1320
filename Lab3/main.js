@@ -2,13 +2,21 @@ const mathHelper = require("./mathHelper");
 const process = require("process");
 const fs = require("fs");
 
+let folder = "dataPoints"; //Name of the folder we will create
+
+const distance = mathHelper.distance; //Makes imported distance formula shorter and easier to write
+
 process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array so we can have just the user inputs.
 
 const userInput = process.argv; //Contains array of what the user inputted.
 
-let folder = "dataPoints"; //Name of the folder we will create
-
-const distance = mathHelper.distance; //Makes imported distance formula shorter and easier to write
+//Checks the input if the user entered more than 4 numbers and returns error message.
+const checkInput = (input) => {
+	if (input.length > 4) {
+		return "ERROR: You've entered too many numbers. Please try again.";
+	}
+};
+console.log(checkInput(userInput)); //Logs the error message.
 
 const processInput = (input, path) => {
 	//Creates a folder
@@ -17,13 +25,15 @@ const processInput = (input, path) => {
 			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
 			processInput(input, path); //Recursively call the processInput function and make a folder with new path name.
 		}
+		//Point 1:
+		const x1 = userInput[0];
+		const y1 = userInput[1];
 
-		const result = distance(
-			userInput[0],
-			userInput[1],
-			userInput[2],
-			userInput[3]
-		); //Calculates the distance of points. (Imported from mathHelper.js)
+		//Point 2:
+		const x2 = userInput[2];
+		const y2 = userInput[3];
+
+		const result = distance(x1, y1, x2, y2); //Calculates the distance of points. (Imported from mathHelper.js)
 
 		fs.writeFile(path, result, (err) => {
 			if (err) {
