@@ -6,17 +6,16 @@ let folder = "dataPoints"; //Name of the folder we will create
 
 const distance = mathHelper.distance; //Makes imported distance formula shorter and easier to write
 
-process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array so we can have just the user inputs.
+process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array, so we have just the user inputs.
 
-const userInput = process.argv; //Contains array of what the user inputted.
-
-//Checks the input if the user entered more than 4 numbers and returns error message.
-const checkInput = (input) => {
-	if (input.length > 4) {
-		return "ERROR: You've entered too many numbers. Please try again.";
+//Converts the array to numbers
+const userInput = process.argv.map(Number, (err) => {
+	if (err) {
+		console.log(
+			"ERROR: You've entered a letter or a symbol. Please enter only numbers"
+		);
 	}
-};
-console.log(checkInput(userInput)); //Logs the error message.
+});
 
 const processInput = (input, path) => {
 	//Creates a folder
@@ -44,4 +43,19 @@ const processInput = (input, path) => {
 	});
 };
 
-processInput(userInput, folder);
+//Checks the input if the user entered too many or too few numbers.
+const checkInput = (input) => {
+	//Input must be less than 4.
+	if (input.length > 4) {
+		return "ERROR: You've entered too many numbers. Please try again.";
+	} else if (input.length < 4) {
+		return "ERROR: You've entered too few numbers. Please try again.";
+	}
+	return true;
+};
+console.log(checkInput(userInput)); //Logs the error into console.
+
+//If user input passes the error check, then run the processInput function.
+if (checkInput) {
+	processInput(userInput, folder);
+}
