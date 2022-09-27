@@ -40,7 +40,15 @@ const processInput = (input, path) => {
 				console.log(err);
 			}
 			console.log(`Your contents have been saved to: ${path}`);
-			const pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
+
+			let pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
+			pointDistance = pointDistance.toString(); //Converts the distance to a string so we can append to the file.
+
+			fs.appendFile(file, pointDistance, (err) => {
+				if (err) {
+					console.log(err);
+				}
+			});
 		});
 	});
 };
