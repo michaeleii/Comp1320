@@ -4,7 +4,7 @@ const fs = require("fs");
 
 let folder = "dataPoints"; //Name of the folder we will create
 
-const distance = mathHelper.distance; //Makes imported distance formula shorter and easier to write
+const distance = mathHelper.distance; //Makes imported distance function shorter and easier to write
 
 process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array, so we have just the user inputs.
 
