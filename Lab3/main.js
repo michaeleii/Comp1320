@@ -21,8 +21,12 @@ const processInput = (input, path) => {
 	//Creates a folder
 	fs.mkdir(path, (err) => {
 		if (err) {
-			path = "temp_" + path; //Adds a temp_ to the path name if path name is already created.
-			processInput(input, path); //Recursively call the processInput function and make a folder with the new path name.
+			let originalPath = path;
+			path = "temp_" + path; //Adds a temp_ to the folder name if folder name is already created.
+			console.log(
+				`Folder "${originalPath}" already exists. Creating a new folder for you called ${path}.\n`
+			);
+			processInput(input, path); //Recursively call the processInput function and make a folder with the new folder name.
 		} else {
 			//Point 1:
 			const x1 = userInput[0];
