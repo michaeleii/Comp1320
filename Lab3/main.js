@@ -8,15 +8,10 @@ const distance = mathHelper.distance; //Makes imported distance formula shorter 
 
 process.argv.splice(0, 2); //Removes the first 2 elements from process.argv array, so we have just the user inputs.
 
-//Converts the array to numbers
-const userInput = process.argv.map(Number, (err) => {
-	if (err) {
-		console.log(
-			"ERROR: You've entered a letter or a symbol. Please enter only numbers"
-		);
-	}
-});
+//Array that contains the numbers the user inputted into the terminal.
+let userInput = process.argv.map(Number);
 
+//Processes the user's input and outputs the distance of the points in a file called points.txt in a folder called dataPoints
 const processInput = (input, path) => {
 	//Creates a folder
 	fs.mkdir(path, (err) => {
@@ -39,6 +34,7 @@ const processInput = (input, path) => {
 			const file = path + "/points.txt"; //The path of the file were going to create.
 			const data = `The distance between your two points: (${x1},${y1}), (${x2},${y2}) is `; //The data were going to write to the file.
 
+			//Writes the point data to the file
 			fs.writeFile(file, data, (err) => {
 				if (err) {
 					console.log(err);
@@ -48,6 +44,7 @@ const processInput = (input, path) => {
 					let pointDistance = distance(x1, y1, x2, y2); //Calculates the distance of the points. (Imported from mathHelper.js)
 					pointDistance = pointDistance.toString(); //Converts the distance to a string so we can append to the file.
 
+					//Appends distance calculation to the file.
 					fs.appendFile(file, pointDistance, (err) => {
 						if (err) {
 							console.log(err);
@@ -59,20 +56,39 @@ const processInput = (input, path) => {
 	});
 };
 
-//Checks the input if the user entered too many or too few numbers.
-const checkInput = (input) => {
-	//Input must be less than 4.
+//Checks the length of the input
+const lengthChecker = (input) => {
+	//Input must be 4 numbers.
 	if (input.length > 4) {
-		return "ERROR: You've entered too many numbers. Please try again.";
+		return false;
 	} else if (input.length < 4) {
-		return "ERROR: You've entered too few numbers. Please try again.";
+		return false;
 	}
 	return true;
+};
+
+//Checks if the user entered letters or symbols.
+const letterChecker = (input) => {
+	for (const inputValue of input) {
+		if (isNaN(inputValue)) {
+			return false;
+		}
+	}
+	return true;
+};
+
+//Checks the input for errors
+const checkInput = (input) => {
+	if (letterChecker(input) && lengthChecker(input)) {
+		return true;
+	} else {
+		return false;
+	}
 };
 
 //If user input passes the error check, then run the processInput function.
 if (checkInput(userInput)) {
 	processInput(userInput, folder);
 } else {
-	console.log(checkInput(userInput)); //Else it will log an error message.
+	console.log(`INPUT ERROR: Please enter 4 numbers!`); //Else it will log an error message.
 }
